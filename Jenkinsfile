@@ -16,6 +16,7 @@ pipeline{
         stage('Maven Build'){
             steps{
                 sh 'mvn clean install package'
+                sh 'mv target/.war target/myweb.war'
             }
             post {
                 success {
@@ -23,6 +24,18 @@ pipeline{
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
+        }
+        stage('Deploy-to-Tomcat-dev'){
+            sshagent(['Tomcat-user']) {
+                sh """
+                     scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.13.2:/opt/tomcat8/webapps/
+                     
+                     ssh ec2-user@172.31.13.2 /opt/tomcat8/bin/shutdown.sh
+                     
+                     ssh ec2-user@172.31.13.2 /opt/tomcat8/bin/startup.sh
+                
+                """
+             }
         }
     }
 }
