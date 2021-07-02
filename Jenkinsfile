@@ -18,12 +18,7 @@ pipeline{
                 sh 'mvn clean install package'
                 sh 'mv target/.war target/myweb.war'
             }
-            post {
-                success {
-                    echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
+            
         }
         stage('Deploy-to-Tomcat-dev'){
             steps{
