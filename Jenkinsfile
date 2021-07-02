@@ -10,7 +10,7 @@ pipeline{
     stages{
         stage('SCM Checkout'){
             steps{
-                git 'https://github.com/Vinayaka445/Hello-World-latest.git'
+                git credentialsId: 'Git', url: 'https://github.com/Vinayaka445/Hello-World-latest.git'
             }
         }
         stage('Maven Build'){
