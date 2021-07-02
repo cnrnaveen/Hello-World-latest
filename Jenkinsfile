@@ -1,3 +1,5 @@
+currentBuild.displayName = "pipeline-job-#"+currentBuild.number   
+
 pipeline{
     agent any
     tools{
